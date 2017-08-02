@@ -7,3 +7,22 @@ var app = new Vue({
 		updatedInfo: false
 	}
 });
+
+var si = require('systeminformation');
+
+function updateData(){
+	si.battery(function (data) {
+		app.updatedInfo = false;
+		app.percent = data.percent;
+		app.isCharging = data.ischarging;
+		app.cycles = data.cyclecount;
+
+		setTimeout(function(){
+			app.updatedInfo = true;
+		}, 1000);
+	});
+}
+
+updateData();
+
+setInterval(updateData, (10 * 1000));
